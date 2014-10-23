@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="chooseprovinces">省份选择</string>
+    <string name="choosecity">城市选择</string>
+    <string name="choosearea">区域选择</string>
+    <string name="weather_mode">服务开关</string>
+    <string name="weather_lock_mode">锁屏天气</string>
+    <string name="weather_lock_pifu">锁屏皮肤</string>
+    <string name="weather_aqi_title">空气指数</string>
+    <string name="weather_aqi_message">请输入城市拼音（如：beijing）仅支持部分城市</string>
+    <string name="weather_close_statubar">关闭顶栏</string>
+    <string name="weather_close_view">关闭窗口</string>
+
+</resources>

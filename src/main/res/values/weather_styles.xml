@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="wether_lock">
+        <item name="android:textColor">#D9FFFFFF</item>
+    </style>
+
+    <style name="wether_lock_blue">
+        <item name="android:textColor">#D932B4E6</item>
+    </style>
+
+</resources>

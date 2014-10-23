@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cc.kenai.weather">
+
+
+
+    <!--￼<meta-data-->
+    <!--android:name="GDT_AD_APPID"-->
+    <!--android:value="1101260878" />-->
+
+    <!--<meta-data-->
+    <!--android:name="BaiduMobAd_APP_ID"-->
+    <!--android:value="debug" />-->
+    <!--<meta-data-->
+    <!--android:name="BaiduMobAd_APP_SEC"-->
+    <!--android:value="debug" />-->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <!--<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />-->
+    <!--<uses-permission android:name="android.permission.GET_TASKS" />-->
+    <!--&lt;!&ndash;以下为可选权限&ndash;&gt;-->
+    <!--<uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />-->
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+
+
+    <application
+        android:name="cc.kenai.common.bace.MainApplication"
+        android:allowBackup="true"
+        android:excludeFromRecents="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="cc.kenai.weather.MainActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="cc.kenai.weather.WeatherActivity"
+            android:excludeFromRecents="true"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+
+        <receiver android:name=".AutoStart">
+            <intent-filter android:priority="90000">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".UpdateReceiver"
+            android:theme="@style/AppTheme">
+            <intent-filter android:priority="90000">
+
+                <action android:name="cc.kenai.weather.utils.WeatherStatebar.statebar_show" />
+                <action android:name="cc.kenai.weather.utils.WeatherStatebar.statebar_cancel" />
+                <action android:name="cc.kenai.weather.MainXService.update" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".UpdateWeatherService"
+            android:label="@string/app_name" />
+        <service
+            android:name=".MainService"
+            android:label="@string/app_name" />
+
+        <receiver
+            android:name=".utils.WeatherInfo$WeatherInfoReceiver"
+            android:theme="@style/AppTheme">
+            <intent-filter android:priority="90000">
+                <action android:name="cc.kenai.weather.utils.WeatherStatebar.statebar_showinfo" />
+            </intent-filter>
+        </receiver>
+
+
+        <activity
+            android:name="cc.kenai.weather.ad.AdActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="net.youmi.android.AdBrowser"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:excludeFromRecents="true"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+
+        <service
+            android:name="net.youmi.android.AdService"
+            android:exported="false" />
+        <service
+            android:name="net.youmi.android.ExpService"
+            android:exported="false" />
+
+        <receiver android:name="net.youmi.android.AdReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="net.youmi.android.offers.OffersReceiver"
+            android:exported="false" />
+        <receiver
+            android:name=".ad.ReceiverAd"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="ep_4e49671c5838de55" />
+                <action android:name="vp_879cf41079394bb7" />
+            </intent-filter>
+        </receiver>
+
+
+        <!--电商墙-->
+        <activity
+            android:name="net.ecom.android.EcomBrowser"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" />
+
+        <!--<service android:name="net.ecom.android.FloatWindowService" />-->
+
+
+        <!--<service  android:name="com.qq.e.comm.DownloadService" android:exported="false"></service>-->
+        <!--<activity android:name="com.qq.e.ads.AdActivity"></activity>-->
+        <!--<activity android:name="com.qq.e.ads.GdtBrowserActivity"></activity>-->
+        <!--<activity android:name="com.qq.e.appwall.AppwallActivity" android:configChanges="keyboard|keyboardHidden|orientation" />-->
+        <!--<service android:name="com.qq.e.comm.DownloadService" android:exported="false"></service>-->
+
+        <!--<activity android:name="com.b" android:configChanges="keyboard|keyboardHidden|orientation" />-->
+
+    </application>
+
+</manifest>

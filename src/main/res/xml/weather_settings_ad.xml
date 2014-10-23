@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:key="shuoming"
+        android:title="广告说明" />
+    <PreferenceScreen
+        android:key="adremove"
+        android:title="去广告" />
+</PreferenceScreen>

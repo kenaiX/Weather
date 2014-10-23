@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="weather_mode"
+        android:summaryOn="会智能在通知栏提示天气，夜间自动关闭"
+        android:title="@string/weather_mode" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="weather_lock_mode"
+        android:title="@string/weather_lock_mode" />
+    <ListPreference
+        android:defaultValue="0"
+        android:dialogTitle="@string/weather_lock_pifu"
+        android:entries="@array/weather_lock_pifu_context"
+        android:entryValues="@array/weather_lock_pifu_value"
+        android:key="weather_lock_pifu"
+        android:title="@string/weather_lock_pifu" />
+    <EditTextPreference
+        android:defaultValue="beijing"
+        android:dialogTitle="@string/weather_aqi_message"
+        android:key="weather_area_aqi"
+        android:title="@string/weather_aqi_title" />
+    <ListPreference
+        android:defaultValue="01"
+        android:dialogTitle="@string/chooseprovinces"
+        android:key="weather_provinces"
+        android:title="@string/chooseprovinces" />
+    <ListPreference
+        android:defaultValue="01"
+        android:dialogTitle="@string/choosecity"
+        android:key="weather_city"
+        android:title="@string/choosecity" />
+    <ListPreference
+        android:defaultValue="200501"
+        android:dialogTitle="@string/choosearea"
+        android:key="weather_area"
+        android:title="@string/choosearea" />
+
+    <Preference
+        android:key="weather_test"
+        android:title="立即显示" />
+
+</PreferenceScreen>

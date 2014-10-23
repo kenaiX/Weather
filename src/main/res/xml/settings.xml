@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="置顶标签">
+        <PreferenceScreen
+            android:key="zhichi"
+            android:title="评分kenai" />
+        <PreferenceScreen
+            android:key="tuijian_melody"
+            android:title="魅感觉"
+            android:summary="kenai旗舰，包含本软件所有功能，更稳定" />
+        <PreferenceScreen
+            android:key="tuijian_dream"
+            android:title="魅手势"
+            android:summary="要做最好用的类手势软件" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="主要设置">
+        <PreferenceScreen
+            android:key="weather"
+            android:title="天气服务" />
+        <PreferenceScreen
+            android:key="aboutAd"
+            android:title="关于广告" />
+        <PreferenceScreen android:title="其它设置">
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="autostart"
+                android:title="开机自启" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="其它">
+
+        <PreferenceScreen android:title="kenai软件" android:key="tuiguang"/>
+        <PreferenceScreen
+            android:key="call"
+            android:title="遇到问题" />
+        <PreferenceScreen
+            android:key="Esc"
+            android:title="完全退出" />
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
