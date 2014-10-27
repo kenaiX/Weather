@@ -12,17 +12,15 @@ public class ApiTest {
         client.setConnectTimeout(3, TimeUnit.SECONDS);
 
         Request request = new Request.Builder()
-                .url("http://localhost:8080/rest?city=010600")
+                .url("http://localhost:8080/rest?city=010400")
                 .build();
 
         Response response = client.newCall(request).execute();
 
         System.out.print(response.body().string());
 
-
-
         request = new Request.Builder()
-                .url("http://localhost:8080/rest?city=010601")
+                .url("http://localhost:8080/rest?city=010602")
                 .build();
 
         response = client.newCall(request).execute();
