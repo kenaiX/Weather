@@ -1,6 +1,7 @@
 package cc.kenai.weather;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -26,6 +27,8 @@ public class MainActivity extends FragmentActivity {
         }
 
         XSetting.xset_string_int(this, "weather_area", "010100");
+
+        startService(new Intent(this,MainService.class));
 
     }
 
