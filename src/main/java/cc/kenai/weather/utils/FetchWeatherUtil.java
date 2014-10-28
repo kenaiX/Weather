@@ -10,7 +10,7 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import cc.kenai.weather.event.UpdateStateStatusIfNeed;
+import cc.kenai.weather.event.UpdateStateIfNeed;
 import cc.kenai.weather.pojos.WeatherPojo;
 import de.greenrobot.event.EventBus;
 
@@ -51,7 +51,7 @@ public class FetchWeatherUtil {
             if (weatherPojo.now != null) {
                 weatherPojo.citycode = citycode;
                 weatherPojo.updatetime = System.currentTimeMillis();
-                EventBus.getDefault().postSticky(new UpdateStateStatusIfNeed(weatherPojo));
+                EventBus.getDefault().postSticky(new UpdateStateIfNeed(weatherPojo));
             }
 
         } catch (IOException e) {

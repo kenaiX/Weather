@@ -8,6 +8,8 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import hugo.weaving.DebugLog;
+
 public class WeatherPojo {
 
     public long updatetime;
@@ -31,6 +33,7 @@ public class WeatherPojo {
     private WeatherPojo() {
     }
 
+    @DebugLog
     public static WeatherPojo formatFromString(String s) {
         String result = s.replaceAll("\"\\{", "{").replaceAll("\\}\"", "}");
         Gson gson = new Gson();

@@ -1,4 +1,4 @@
 package cc.kenai.weather.event;
 
-public class UpdateWeatherIfNeed {
+public class FetchWeatherIfNeed {
 }

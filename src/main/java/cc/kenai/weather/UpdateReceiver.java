@@ -7,53 +7,43 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 
-import com.kenai.function.message.XLog;
-
-import cc.kenai.weather.event.UpdateWeatherIfNeed;
+import cc.kenai.weather.event.FetchWeatherIfNeed;
 import de.greenrobot.event.EventBus;
 import hugo.weaving.DebugLog;
 
-/**
- * Created by kenai on 13-12-9.
- */
 public class UpdateReceiver extends BroadcastReceiver {
-    private final String Tag = "WeatherStatebar";
 
     @Override
     @DebugLog
     public void onReceive(final Context context, Intent intent) {
-        if (intent != null && intent.getAction() != null) {
-            if (intent.getAction().equals(BROADCAST_UPDATE)) {
-                EventBus.getDefault().post(new UpdateWeatherIfNeed());
-            }
+        if (intent == null || intent.getAction() == null) {
+            return;
         }
-
-        if (intent != null && intent.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
-            EventBus.getDefault().post(new UpdateWeatherIfNeed());
+        if (intent.getAction().equals(MainBroadcastEvent.BROADCAST_UPDATE)) {
+            EventBus.getDefault().post(new FetchWeatherIfNeed());
+        } else if (intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
+            EventBus.getDefault().post(new FetchWeatherIfNeed());
         }
     }
 
-
-    public final static String BROADCAST_UPDATE = "cc.kenai.weather.MainXService.update";
-
+    @DebugLog
     public static void sendUpdateBroadcast(Context context) {
-        XLog.xLog("send to start update weather");
-        AlarmManager xAlarmManager = (AlarmManager) context
+        AlarmManager am = (AlarmManager) context
                 .getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(BROADCAST_UPDATE);
+        Intent intent = new Intent(MainBroadcastEvent.BROADCAST_UPDATE);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
                 intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        xAlarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis() + 1000,
+        am.setRepeating(AlarmManager.RTC, System.currentTimeMillis() + 1000,
                 AlarmManager.INTERVAL_HALF_HOUR, pendingIntent);
     }
 
+    @DebugLog
     public static void cancelUpdateBroadcast(Context context) {
-        XLog.xLog("send to cancel update weather");
-        AlarmManager xAlarmManager = (AlarmManager) context
+        AlarmManager am = (AlarmManager) context
                 .getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(BROADCAST_UPDATE);
+        Intent intent = new Intent(MainBroadcastEvent.BROADCAST_UPDATE);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
                 intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        xAlarmManager.cancel(pendingIntent);
+        am.cancel(pendingIntent);
     }
 }

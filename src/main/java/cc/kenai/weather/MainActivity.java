@@ -1,11 +1,11 @@
 package cc.kenai.weather;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
+import com.kenai.function.setting.XSetting;
 import com.kenai.function.state.XState;
 
 import cc.kenai.common.ad.LoadDialog;
@@ -24,7 +24,9 @@ public class MainActivity extends FragmentActivity {
         if (XState.get_isfirst(this)) {
             LoadDialog.showDialog(this);
         }
-        startService(new Intent(this, MainXService.class));
+
+        XSetting.xset_string_int(this, "weather_area", "010100");
+
     }
 
 
