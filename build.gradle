@@ -37,6 +37,7 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'cc.kenai.preference:kenai:+@aar'
     compile 'cc.kenai.common:kenai:+@aar'
+    compile 'cc.kenai.citypicker:kenai:+@aar'
 }
 
 

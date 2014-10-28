@@ -26,8 +26,6 @@ public class MainActivity extends FragmentActivity {
             LoadDialog.showDialog(this);
         }
 
-        XSetting.xset_string_int(this, "weather_area", "010100");
-
         startService(new Intent(this,MainService.class));
 
     }

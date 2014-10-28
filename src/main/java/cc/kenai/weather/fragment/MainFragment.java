@@ -1,13 +1,17 @@
 package cc.kenai.weather.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
 import android.support.v4.preference.PreferenceFragment;
+import android.widget.Toast;
 
 import com.kenai.function.setting.XSetting;
 
+import cc.kenai.citypicker.CityPicker;
 import cc.kenai.common.ad.KenaiTuiguang;
 import cc.kenai.common.program.Question;
 import cc.kenai.common.stores.StoreUtil;
@@ -56,6 +60,16 @@ public class MainFragment extends PreferenceFragment implements SharedPreference
 
             public boolean onPreferenceClick(Preference preference) {
 
+
+                CityPickFragment cityPickFragment=new CityPickFragment();
+                cityPickFragment.show(getFragmentManager(),"citypicker");
+//                new AlertDialog.Builder(getActivity()).setView(R.layout.city_picker).setPositiveButton("选择",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        XSetting.xset_string_int(getActivity(),"weather_area",cityPicker.getCity_code().substring(3,9));
+//                        Toast.makeText(getActivity(),cityPicker.getCity_code(),Toast.LENGTH_SHORT).show();
+//                    }
+//                }).create().show();
                 return true;
             }
         });

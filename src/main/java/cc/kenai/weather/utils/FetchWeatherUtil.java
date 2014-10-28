@@ -67,10 +67,11 @@ public class FetchWeatherUtil {
     }
 
     //todo  应该根据不同情况返回不同数据，指示用户真实情况
+    @DebugLog
     static String dealWithResult(WeatherPojo weatherPojo, String citycode, String result) {
         StringBuilder returnString = new StringBuilder();
 
-        WeatherPojo pojo = WeatherPojo.formatFromString(result);
+        WeatherPojo pojo = WeatherPojo.fromJson(result);
 
         if (pojo.fc == null && pojo.en == null && pojo.now == null) {
             returnString.append("receive none");

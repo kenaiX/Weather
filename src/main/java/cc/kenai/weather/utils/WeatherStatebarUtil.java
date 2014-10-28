@@ -16,11 +16,13 @@ import cc.kenai.meizu.MZNotification;
 import cc.kenai.weather.MainBroadcastEvent;
 import cc.kenai.weather.R;
 import cc.kenai.weather.pojos.WeatherPojo;
+import hugo.weaving.DebugLog;
 
 public class WeatherStatebarUtil {
 
     public final static int ID = 1012110;
 
+    @DebugLog
     public final static void show_statebar(Context context, WeatherPojo weatherPojo) {
         //数据创建
         MainWeather mainWeather = new MainWeather(context, weatherPojo);
@@ -43,11 +45,12 @@ public class WeatherStatebarUtil {
         MZNotification.internalApp(notification);
 
         //notification发送
-        NotificationManagerCompat.from(context).notify("weatherstatebar", WeatherStatebarUtil.ID, notification);
+        NotificationManagerCompat.from(context).notify( WeatherStatebarUtil.ID, notification);
     }
 
+    @DebugLog
     public final static void cancel_statebar(Context context) {
-        NotificationManagerCompat.from(context).cancel("weatherstatebar", WeatherStatebarUtil.ID);
+        NotificationManagerCompat.from(context).cancel( WeatherStatebarUtil.ID);
     }
 
 
@@ -96,7 +99,7 @@ public class WeatherStatebarUtil {
 
             smallIco = getSmallIcon(weatherMay);
 
-            contentTitle = weatherMay + " " + nowWind + " " + weatherPojo.now.wd + "℃";
+            contentTitle = weatherMay + " " + nowWind + " " + weatherPojo.now.wd + "℃   "+weatherPojo.now.ct;
             if (weatherPojo.en != null) {
                 contentText = temMay + " " + windMay + " 空气:" + weatherPojo.en.ql + "(" + weatherPojo.en.aqi + ")";
             } else {

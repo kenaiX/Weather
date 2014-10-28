@@ -71,6 +71,7 @@ public class WeatherServiceCompat implements SharedPreferences.OnSharedPreferenc
     @DebugLog
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("weather_area")) {
+            weatherPojo = null;
             EventBus.getDefault().post(new FetchWeatherIfNeed());
         }
     }
