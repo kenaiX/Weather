@@ -30,7 +30,9 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="其它">
 
-        <PreferenceScreen android:title="kenai软件" android:key="tuiguang"/>
+        <PreferenceScreen
+            android:title="kenai软件"
+            android:key="tuiguang" />
         <PreferenceScreen
             android:key="call"
             android:title="遇到问题" />

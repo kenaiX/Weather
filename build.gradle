@@ -4,17 +4,19 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.13.2'
+        classpath 'com.jakewharton.hugo:hugo-plugin:1.1.0'
     }
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'hugo'
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 21
     buildToolsVersion "20.0.0"
     defaultConfig {
         minSdkVersion 10
-        targetSdkVersion 19
+        targetSdkVersion 21
         versionCode 11
         versionName "3.2.0"
     }
@@ -22,14 +24,20 @@ android {
 
 allprojects {
     repositories {
-        maven{ url "http://dl.bintray.com/kenaix/maven"}
+        maven { url "http://dl.bintray.com/kenaix/maven" }
         jcenter()
     }
 }
 
 dependencies {
-    compile ('cc.kenai.common:kenai:+@aar')
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:support-v4:21.0.0'
+    compile 'de.greenrobot:eventbus:2.2.1'
+    compile 'com.google.code.gson:gson:2.3'
+    compile 'com.squareup.okhttp:okhttp:2.0.0'
+    compile 'cc.kenai.preference:kenai:+@aar'
+    compile 'cc.kenai.common:kenai:+@aar'
+    compile project(':lib-common')
 }
 
 
