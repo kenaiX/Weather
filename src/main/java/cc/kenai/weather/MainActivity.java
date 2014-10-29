@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
-import com.kenai.function.setting.XSetting;
 import com.kenai.function.state.XState;
 
 import cc.kenai.common.ad.LoadDialog;
 import cc.kenai.meizu.MZActivity;
+import cc.kenai.umeng.UmengHelper;
 import cc.kenai.weather.fragment.MainFragment;
 
 public class MainActivity extends FragmentActivity {
@@ -26,8 +26,27 @@ public class MainActivity extends FragmentActivity {
             LoadDialog.showDialog(this);
         }
 
-        startService(new Intent(this,MainService.class));
+        startService(new Intent(this, MainService.class));
 
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        UmengHelper.updateOnlineConfig(this);
+        UmengHelper.update_auto(this, "ffbf487cea6d4064a14c7a364e8481a2");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        UmengHelper.onActivityPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UmengHelper.onActivityResume(this);
     }
 
 

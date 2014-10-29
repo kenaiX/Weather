@@ -8,18 +8,25 @@ import com.kenai.function.setting.XSetting;
 import cc.kenai.weather.event.FetchWeatherIfNeed;
 import cc.kenai.weather.event.StateBarControl;
 import cc.kenai.weather.event.UpdateStateIfNeed;
+import cc.kenai.weather.event.WeatherInfoControl;
 import cc.kenai.weather.pojos.WeatherPojo;
 import cc.kenai.weather.utils.FetchWeatherUtil;
+import cc.kenai.weather.utils.WeatherInfo;
 import cc.kenai.weather.utils.WeatherStatebarUtil;
 import de.greenrobot.event.EventBus;
 import hugo.weaving.DebugLog;
 
 public class WeatherServiceCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
-    private Service service;
+    private final Service service;
     public WeatherPojo weatherPojo;
+    public final WeatherInfo weatherInfo;
+
+    public WeatherServiceCompat(Service service) {
+        this.service = service;
+        this.weatherInfo = new WeatherInfo(service);
+    }
 
     public void create(Service service) {
-        this.service = service;
         EventBus.getDefault().register(this);
         EventBus.getDefault().post(new FetchWeatherIfNeed());
         UpdateReceiver.cancelUpdateBroadcast(service);
@@ -30,7 +37,6 @@ public class WeatherServiceCompat implements SharedPreferences.OnSharedPreferenc
     public void destroy(Service service) {
         EventBus.getDefault().unregister(this);
         XSetting.getSharedPreferences(service).unregisterOnSharedPreferenceChangeListener(this);
-        service = null;
     }
 
 
@@ -65,6 +71,12 @@ public class WeatherServiceCompat implements SharedPreferences.OnSharedPreferenc
     @DebugLog
     public void onEventMainThread(StateBarControl.Dismiss event) {
         WeatherStatebarUtil.cancel_statebar(service);
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    @DebugLog
+    public void onEventMainThread(WeatherInfoControl.Show event) {
+        weatherInfo.show();
     }
 
     @Override

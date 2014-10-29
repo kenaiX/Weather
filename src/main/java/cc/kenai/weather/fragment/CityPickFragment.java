@@ -5,7 +5,6 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.kenai.function.setting.XSetting;
 
@@ -22,7 +21,7 @@ public class CityPickFragment extends DialogFragment {
             public void onClick(View v) {
                 XSetting.xset_string_int(getActivity(), "weather_area_name", cityPicker.getcity_name());
                 XSetting.xset_string_int(getActivity(), "weather_area", cityPicker.getCity_code().substring(3, 9));
-                Toast.makeText(getActivity(), cityPicker.getCity_code().substring(3, 9), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), cityPicker.getCity_code().substring(3, 9), Toast.LENGTH_SHORT).show();
                 dismiss();
             }
         });

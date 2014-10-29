@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 
 import cc.kenai.weather.event.FetchWeatherIfNeed;
+import cc.kenai.weather.event.StateBarControl;
+import cc.kenai.weather.event.WeatherInfoControl;
 import de.greenrobot.event.EventBus;
 import hugo.weaving.DebugLog;
 
@@ -19,10 +21,18 @@ public class UpdateReceiver extends BroadcastReceiver {
         if (intent == null || intent.getAction() == null) {
             return;
         }
-        if (intent.getAction().equals(MainBroadcastEvent.BROADCAST_UPDATE)) {
-            EventBus.getDefault().post(new FetchWeatherIfNeed());
-        } else if (intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
-            EventBus.getDefault().post(new FetchWeatherIfNeed());
+        String action = intent.getAction();
+
+        switch (action) {
+            case MainBroadcastEvent.BROADCAST_UPDATE:
+                EventBus.getDefault().post(new FetchWeatherIfNeed());
+                break;
+            case MainBroadcastEvent.BROADCAST_STATEBAR_SHOWINFO:
+                EventBus.getDefault().post(new WeatherInfoControl.Show());
+                break;
+            case ConnectivityManager.CONNECTIVITY_ACTION:
+                EventBus.getDefault().post(new FetchWeatherIfNeed());
+                break;
         }
     }
 

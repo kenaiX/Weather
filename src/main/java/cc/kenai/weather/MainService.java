@@ -6,7 +6,7 @@ import android.os.IBinder;
 import android.support.v4.app.ServiceCompat;
 
 public class MainService extends Service {
-    WeatherServiceCompat serviceCompat = new WeatherServiceCompat();
+    WeatherServiceCompat serviceCompat;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -16,8 +16,8 @@ public class MainService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        serviceCompat = new WeatherServiceCompat(this);
         serviceCompat.create(this);
-
 
     }
 
@@ -30,6 +30,7 @@ public class MainService extends Service {
     public void onDestroy() {
         super.onDestroy();
         serviceCompat.destroy(this);
+        serviceCompat = null;
     }
 
 }

@@ -12,6 +12,7 @@ import android.support.v4.app.NotificationManagerCompat;
 
 import com.kenai.function.time.XTime;
 
+import cc.kenai.meizu.MZFlymeVersion;
 import cc.kenai.meizu.MZNotification;
 import cc.kenai.weather.MainBroadcastEvent;
 import cc.kenai.weather.R;
@@ -45,12 +46,12 @@ public class WeatherStatebarUtil {
         MZNotification.internalApp(notification);
 
         //notification发送
-        NotificationManagerCompat.from(context).notify( WeatherStatebarUtil.ID, notification);
+        NotificationManagerCompat.from(context).notify(WeatherStatebarUtil.ID, notification);
     }
 
     @DebugLog
     public final static void cancel_statebar(Context context) {
-        NotificationManagerCompat.from(context).cancel( WeatherStatebarUtil.ID);
+        NotificationManagerCompat.from(context).cancel(WeatherStatebarUtil.ID);
     }
 
 
@@ -61,32 +62,11 @@ public class WeatherStatebarUtil {
         public final String ticker = "新的天气预报";
 
         public MainWeather(Context context, WeatherPojo weatherPojo) {
-            String weatherMay, windMay, temMay;
-            if (isDay()) {
-                if (weatherPojo.fc.f1.w_d.equals(weatherPojo.fc.f1.w_n)) {
-                    weatherMay = weatherPojo.fc.f1.w_d;
-                } else {
-                    weatherMay = weatherPojo.fc.f1.w_d + "转" + weatherPojo.fc.f1.w_n;
-                }
-                if (weatherPojo.fc.f1.fx_d.equals(weatherPojo.fc.f1.fx_n)) {
-                    windMay = weatherPojo.fc.f1.fx_d;
-                } else {
-                    windMay = weatherPojo.fc.f1.fx_d + "转" + weatherPojo.fc.f1.fx_n;
-                }
-                if (weatherPojo.fc.f1.h.equals(weatherPojo.fc.f1.l)) {
-                    temMay = weatherPojo.fc.f1.h;
-                } else {
-                    temMay = weatherPojo.fc.f1.h + "~" + weatherPojo.fc.f1.l;
-                }
-            } else {
-                weatherMay = weatherPojo.fc.f1.w_n;
-                windMay = weatherPojo.fc.f1.fx_n;
-                temMay = "~" + weatherPojo.fc.f1.l;
-            }
+            WeatherFnString weatherString = new WeatherFnString(weatherPojo.fc.f1);
 
-            if (!windMay.contains("风")) {
-                windMay = windMay + "风";
-            }
+            String weatherMay = weatherString.getWeatherMay();
+            String windSpeedMay = weatherString.getWindSpeedMay();
+            String temMay = weatherString.getTemMay();
 
 
             String nowWind;
@@ -99,11 +79,11 @@ public class WeatherStatebarUtil {
 
             smallIco = getSmallIcon(weatherMay);
 
-            contentTitle = weatherMay + " " + nowWind + " " + weatherPojo.now.wd + "℃   "+weatherPojo.now.ct;
-            if (weatherPojo.en != null) {
-                contentText = temMay + " " + windMay + " 空气:" + weatherPojo.en.ql + "(" + weatherPojo.en.aqi + ")";
+            contentTitle = weatherMay + " " + nowWind + " " + weatherPojo.now.wd + "℃   " + weatherPojo.now.ct;
+            if (weatherPojo.en.x != null) {
+                contentText = temMay + " " + windSpeedMay + " 空气:" + weatherPojo.en.ql + "(" + weatherPojo.en.aqi + ")";
             } else {
-                contentText = temMay + " " + windMay;
+                contentText = temMay + " " + windSpeedMay + " 湿度:" + weatherPojo.now.sd;
             }
 
             largeIco = BitmapFactory.decodeResource(context.getResources(), getLargeIcon(weatherMay));
@@ -115,12 +95,10 @@ public class WeatherStatebarUtil {
         public String contentText;
 
         public Fn(WeatherPojo.Fc.Fn fn) {
-            String weatherMay;
-            if (fn.w_d.equals(fn.w_n)) {
-                weatherMay = fn.w_d;
-            } else {
-                weatherMay = fn.w_d + "转" + fn.w_n;
-            }
+            WeatherFnString weatherString = new WeatherFnString(fn);
+
+            String weatherMay = weatherString.getWeatherMay();
+
             smallIco = getSmallIcon(weatherMay);
 
             contentText = weatherMay + " " + fn.h + "~" + fn.l;
@@ -128,63 +106,116 @@ public class WeatherStatebarUtil {
         }
     }
 
-    public static boolean isDay() {
-        return true;
-    }
 
     static int getSmallIcon(String weatherMay) {
         int smallIco;
-        if (weatherMay.contains("雹")) {
-            smallIco = R.drawable.weather_statubar_hail;
-        } else if (weatherMay.contains("雪")) {
-            if (weatherMay.contains("大雪")) {
-                smallIco = R.drawable.weather_statubar_snow_l;
-            } else if (weatherMay.contains("雨")) {
-                smallIco = R.drawable.weather_statubar_rain_snow;
-            } else {
-                smallIco = R.drawable.weather_statubar_snow_s;
-            }
-        } else if (weatherMay.contains("霜")) {
-            smallIco = R.drawable.weather_statubar_snow_storm;
-        } else if (weatherMay.contains("雨")) {
-            if (weatherMay.contains("晴")) {
-                smallIco = R.drawable.weather_statubar_sun_rain;
-            } else if (weatherMay.contains("雷")) {
-                smallIco = R.drawable.weather_statubar_rain_t;
-            } else if (weatherMay.contains("大雨")) {
-                smallIco = R.drawable.weather_statubar_rain_l;
-            } else if (weatherMay.contains("中雨")) {
-                smallIco = R.drawable.weather_statubar_rain_m;
-            } else if (weatherMay.contains("小雨")) {
-                smallIco = R.drawable.weather_statubar_rain_s;
-            } else {
-                smallIco = R.drawable.weather_statubar_rain_s;
-            }
-        } else if (weatherMay.contains("云") || weatherMay.contains("阴")) {
 
-            if (weatherMay.contains("晴")) {
-                if (XTime.gettime_partly(4) <= 17) {
-                    smallIco = R.drawable.weather_statubar_sun_cloudy;
+        if (MZFlymeVersion.isFlyme4()) {
+            if (weatherMay.contains("雹")) {
+                smallIco = R.drawable.weather_statubar_hail_flyme4;
+            } else if (weatherMay.contains("雪")) {
+                if (weatherMay.contains("大雪")) {
+                    smallIco = R.drawable.weather_statubar_snow_l_flyme4;
+                } else if (weatherMay.contains("雨")) {
+                    smallIco = R.drawable.weather_statubar_rain_snow_flyme4;
                 } else {
-                    smallIco = R.drawable.weather_statubar_sun_cloudy_night;
+                    smallIco = R.drawable.weather_statubar_snow_s_flyme4;
+                }
+            } else if (weatherMay.contains("霜")) {
+                smallIco = R.drawable.weather_statubar_snow_storm_flyme4;
+            } else if (weatherMay.contains("雨")) {
+                if (weatherMay.contains("晴")) {
+                    smallIco = R.drawable.weather_statubar_sun_rain_flyme4;
+                } else if (weatherMay.contains("雷")) {
+                    smallIco = R.drawable.weather_statubar_rain_t_flyme4;
+                } else if (weatherMay.contains("大雨")) {
+                    smallIco = R.drawable.weather_statubar_rain_l_flyme4;
+                } else if (weatherMay.contains("中雨")) {
+                    smallIco = R.drawable.weather_statubar_rain_m_flyme4;
+                } else if (weatherMay.contains("小雨")) {
+                    smallIco = R.drawable.weather_statubar_rain_s_flyme4;
+                } else {
+                    smallIco = R.drawable.weather_statubar_rain_s_flyme4;
+                }
+            } else if (weatherMay.contains("云") || weatherMay.contains("阴")) {
+
+                if (weatherMay.contains("晴")) {
+                    if (XTime.gettime_partly(4) <= 17) {
+                        smallIco = R.drawable.weather_statubar_sun_cloudy_flyme4;
+                    } else {
+                        smallIco = R.drawable.weather_statubar_sun_cloudy_night_flyme4;
+                    }
+                } else {
+                    smallIco = R.drawable.weather_statubar_cloudy_flyme4;
+                }
+            } else if (weatherMay.contains("风")) {
+                if (XTime.gettime_partly(4) <= 17) {
+                    smallIco = R.drawable.weather_statubar_fog_flyme4;
+                } else {
+                    smallIco = R.drawable.weather_statubar_fog_night_flyme4;
+                }
+            } else if (weatherMay.contains("晴")) {
+                if (XTime.gettime_partly(4) <= 17) {
+                    smallIco = R.drawable.weather_statubar_sun_flyme4;
+                } else {
+                    smallIco = R.drawable.weather_statubar_sun_night_flyme4;
                 }
             } else {
-                smallIco = R.drawable.weather_statubar_cloudy;
-            }
-        } else if (weatherMay.contains("风")) {
-            if (XTime.gettime_partly(4) <= 17) {
-                smallIco = R.drawable.weather_statubar_fog;
-            } else {
-                smallIco = R.drawable.weather_statubar_fog_night;
-            }
-        } else if (weatherMay.contains("晴")) {
-            if (XTime.gettime_partly(4) <= 17) {
-                smallIco = R.drawable.weather_statubar_sun;
-            } else {
-                smallIco = R.drawable.weather_statubar_sun_night;
+                smallIco = R.drawable.weather_statubar_other_flyme4;
             }
         } else {
-            smallIco = R.drawable.logo_flyme;
+            if (weatherMay.contains("雹")) {
+                smallIco = R.drawable.weather_statubar_hail;
+            } else if (weatherMay.contains("雪")) {
+                if (weatherMay.contains("大雪")) {
+                    smallIco = R.drawable.weather_statubar_snow_l;
+                } else if (weatherMay.contains("雨")) {
+                    smallIco = R.drawable.weather_statubar_rain_snow;
+                } else {
+                    smallIco = R.drawable.weather_statubar_snow_s;
+                }
+            } else if (weatherMay.contains("霜")) {
+                smallIco = R.drawable.weather_statubar_snow_storm;
+            } else if (weatherMay.contains("雨")) {
+                if (weatherMay.contains("晴")) {
+                    smallIco = R.drawable.weather_statubar_sun_rain;
+                } else if (weatherMay.contains("雷")) {
+                    smallIco = R.drawable.weather_statubar_rain_t;
+                } else if (weatherMay.contains("大雨")) {
+                    smallIco = R.drawable.weather_statubar_rain_l;
+                } else if (weatherMay.contains("中雨")) {
+                    smallIco = R.drawable.weather_statubar_rain_m;
+                } else if (weatherMay.contains("小雨")) {
+                    smallIco = R.drawable.weather_statubar_rain_s;
+                } else {
+                    smallIco = R.drawable.weather_statubar_rain_s;
+                }
+            } else if (weatherMay.contains("云") || weatherMay.contains("阴")) {
+
+                if (weatherMay.contains("晴")) {
+                    if (XTime.gettime_partly(4) <= 17) {
+                        smallIco = R.drawable.weather_statubar_sun_cloudy;
+                    } else {
+                        smallIco = R.drawable.weather_statubar_sun_cloudy_night;
+                    }
+                } else {
+                    smallIco = R.drawable.weather_statubar_cloudy;
+                }
+            } else if (weatherMay.contains("风")) {
+                if (XTime.gettime_partly(4) <= 17) {
+                    smallIco = R.drawable.weather_statubar_fog;
+                } else {
+                    smallIco = R.drawable.weather_statubar_fog_night;
+                }
+            } else if (weatherMay.contains("晴")) {
+                if (XTime.gettime_partly(4) <= 17) {
+                    smallIco = R.drawable.weather_statubar_sun;
+                } else {
+                    smallIco = R.drawable.weather_statubar_sun_night;
+                }
+            } else {
+                smallIco = R.drawable.weather_statubar_other;
+            }
         }
         return smallIco;
     }

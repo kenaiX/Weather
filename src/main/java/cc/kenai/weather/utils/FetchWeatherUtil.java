@@ -73,7 +73,7 @@ public class FetchWeatherUtil {
 
         WeatherPojo pojo = WeatherPojo.fromJson(result);
 
-        if (pojo.fc == null && pojo.en == null && pojo.now == null) {
+        if (pojo.fc.x == null && pojo.en.x == null && pojo.now.x == null) {
             returnString.append("receive none");
         } else {
             if (weatherPojo == null) {
@@ -83,17 +83,17 @@ public class FetchWeatherUtil {
             } else {
                 returnString.append("receive some : ");
 
-                if (pojo.now != null) {
+                if (pojo.now.x != null) {
                     weatherPojo.now = pojo.now;
                 } else {
                     returnString.append("now ");
                 }
-                if (pojo.en != null) {
+                if (pojo.en.x != null) {
                     weatherPojo.en = pojo.en;
                 } else {
                     returnString.append("en ");
                 }
-                if (pojo.fc != null) {
+                if (pojo.fc.x != null) {
                     weatherPojo.fc = pojo.fc;
                 } else {
                     returnString.append("fc ");
