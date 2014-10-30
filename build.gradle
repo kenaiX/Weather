@@ -3,8 +3,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.13.2'
-        classpath 'com.jakewharton.hugo:hugo-plugin:1.1.0'
+        classpath 'com.android.tools.build:gradle:+'
+        classpath 'com.jakewharton.hugo:hugo-plugin:+'
     }
 }
 
@@ -34,11 +34,11 @@ allprojects {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:21.0.0'
-    compile 'com.android.support:support-v4:21.0.0'
-    compile 'de.greenrobot:eventbus:2.2.1'
-    compile 'com.google.code.gson:gson:2.3'
-    compile 'com.squareup.okhttp:okhttp:2.0.0'
+    compile 'com.android.support:appcompat-v7:+'
+    compile 'com.android.support:support-v4:+'
+    compile 'de.greenrobot:eventbus:+'
+    compile 'com.google.code.gson:gson:+'
+    compile 'com.squareup.okhttp:okhttp:+'
     compile 'cc.kenai.preference:kenai:+@aar'
     compile 'cc.kenai.common:kenai:+@aar'
     compile 'cc.kenai.citypicker:kenai:+@aar'
